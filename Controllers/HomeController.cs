@@ -25,7 +25,26 @@ namespace CrudAppUsingADO.Controllers
         [HttpPost]
         public ActionResult Create(Employee emp)
         {
-            return View();
+
+            try
+            {
+                if (ModelState.IsValid==true)
+                {
+                    EmployeeDBContext context = new EmployeeDBContext();
+                    bool check = context.AddEmployee(emp);
+                    if (check == true)
+                    {
+                        TempData["InsertMessage"] = "Data has been Inserted Successfully";
+                        ModelState.Clear();
+                        return RedirectToAction("Index");
+                    }
+                }
+                return View();
+            }
+            catch
+            {
+                return View();
+            }
         }
     }
 }

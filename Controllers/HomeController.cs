@@ -45,6 +45,29 @@ namespace CrudAppUsingADO.Controllers
             {
                 return View();
             }
+
+        }
+        public ActionResult Edit(int id)
+        {
+            EmployeeDBContext context = new EmployeeDBContext();
+            var row = context.GetEmployees().Find(model => model.id == id);
+            return View(row);
+        }
+        [HttpPost]
+        public ActionResult Edit(int id, Employee emp)
+        {
+            if (ModelState.IsValid == true)
+            {
+                EmployeeDBContext context = new EmployeeDBContext();
+                bool check = context.UpdateEmployee(emp);
+                if (check == true)
+                {
+                    TempData["UpdateMessage"] = "Data has been Updated Successfully";
+                    ModelState.Clear();
+                    return RedirectToAction("Index");
+                }
+            }
+            return View();
         }
     }
 }

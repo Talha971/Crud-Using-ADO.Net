@@ -67,5 +67,32 @@ namespace CrudAppUsingADO.Models
 
             con.Close();
         }
+
+
+        public bool UpdateEmployee(Employee emp)
+        {
+            SqlConnection con = new SqlConnection(cs);
+            SqlCommand cmd = new SqlCommand("spUpdateEmployee", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@id", emp.id);
+            cmd.Parameters.AddWithValue("@name", emp.name);
+            cmd.Parameters.AddWithValue("@gender", emp.gender);
+            cmd.Parameters.AddWithValue("@age", emp.age);
+            cmd.Parameters.AddWithValue("@salary", emp.salary);
+            cmd.Parameters.AddWithValue("@city", emp.city);
+            con.Open();
+            int i = cmd.ExecuteNonQuery();
+
+            if (i > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+            con.Close();
+        }
     }
 }

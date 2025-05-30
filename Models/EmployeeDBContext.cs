@@ -94,5 +94,26 @@ namespace CrudAppUsingADO.Models
 
             con.Close();
         }
+
+        public bool DeleteEmployee(int id)
+        {
+            SqlConnection con = new SqlConnection(cs);
+            SqlCommand cmd = new SqlCommand("spDeleteEmployee", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@id", id);
+            con.Open();
+            int i = cmd.ExecuteNonQuery();
+
+            if (i > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+            con.Close();
+        }
     }
 }

@@ -69,5 +69,34 @@ namespace CrudAppUsingADO.Controllers
             }
             return View();
         }
+
+        public ActionResult Details(int id)
+        {
+            EmployeeDBContext context = new EmployeeDBContext();
+            var row = context.GetEmployees().Find(model => model.id == id);
+            return View(row);
+        }
+        public ActionResult Delete(int id)
+        {
+            EmployeeDBContext context = new EmployeeDBContext();
+            var row = context.GetEmployees().Find(model => model.id == id);
+            return View(row);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id, Employee emp )
+        {
+            EmployeeDBContext context = new EmployeeDBContext();
+            bool check = context.DeleteEmployee(id);
+            if (check == true)
+            {
+                TempData["DeleteMessage"] = "Data has been Deleted Successfully";
+                ModelState.Clear();
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+     
     }
 }
